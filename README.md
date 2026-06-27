@@ -2,6 +2,10 @@
 
 API REST para gerenciamento de tarefas pessoais com autenticação JWT. Cada usuário acessa apenas suas próprias tarefas.
 
+## 🌐 URL em Produção
+
+https://todoapi-production-79c3.up.railway.app
+
 ## 🚀 Tecnologias
 
 - Java 21
@@ -14,17 +18,21 @@ API REST para gerenciamento de tarefas pessoais com autenticação JWT. Cada usu
 - Maven
 
 ## 📁 Estrutura do Projeto
-
-```
 src/main/java/com/gustavo/todoapi/
-├── config/        # Configuração do Spring Security
+
+├── config/        # Configuração do Spring Security e tratamento de erros
+
 ├── controller/    # Endpoints REST
+
 ├── dto/           # Objetos de requisição e resposta
+
 ├── entity/        # Entidades JPA (User, Task)
+
 ├── repository/    # Interfaces de acesso ao banco
+
 ├── security/      # Filtro e utilitários JWT
+
 └── service/       # Regras de negócio
-```
 
 ## ⚙️ Como rodar localmente
 
@@ -41,9 +49,7 @@ git clone https://github.com/GuSalesDev/todoapi.git
 cd todoapi
 ```
 
-### 2. Configure as variáveis de ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
+### 2. Configure o arquivo .env na raiz do projeto
 
 ```env
 DB_USERNAME=root
@@ -61,44 +67,22 @@ O banco `todo_db` e as tabelas são criados automaticamente pelo Hibernate.
 
 ---
 
-## 🔐 Autenticação
+## 📌 Documentação da API
 
-A API usa autenticação **stateless via JWT**. Após login ou registro, inclua o token em todas as requisições protegidas:
+**Base URL:** `https://todoapi-production-79c3.up.railway.app`
 
-```
+### Autenticação
+
+A API utiliza autenticação via JWT. Após registro ou login, inclua o token em todas as requisições protegidas:
 Authorization: Bearer {token}
-```
 
 ---
 
-## 📌 Endpoints
+### POST /auth/register
+Cadastra um novo usuário e retorna um token JWT.
 
-### Autenticação — rotas públicas
-
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/auth/register` | Cadastrar novo usuário |
-| POST | `/auth/login` | Autenticar usuário |
-
-### Tarefas — requer JWT
-
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/tasks` | Listar todas as tarefas do usuário |
-| POST | `/tasks` | Criar nova tarefa |
-| PATCH | `/tasks/{id}/toggle` | Marcar como concluída / pendente |
-| DELETE | `/tasks/{id}` | Deletar tarefa |
-
----
-
-## 💡 Exemplos de uso
-
-### Registrar usuário
-
-```http
-POST /auth/register
-Content-Type: application/json
-
+**Request:**
+```json
 {
   "name": "Gustavo",
   "email": "gustavo@email.com",
@@ -106,7 +90,32 @@ Content-Type: application/json
 }
 ```
 
-**Resposta (201):**
+**Response — 201 Created:**
+```json
+{
+  "token": "eyJhbGciOiJIUzM4NCJ9..."
+}
+```
+
+**Validações:**
+- `name` — obrigatório
+- `email` — obrigatório, formato válido
+- `password` — obrigatório, mínimo 6 caracteres
+
+---
+
+### POST /auth/login
+Autentica um usuário existente e retorna um token JWT.
+
+**Request:**
+```json
+{
+  "email": "gustavo@email.com",
+  "password": "123456"
+}
+```
+
+**Response — 200 OK:**
 ```json
 {
   "token": "eyJhbGciOiJIUzM4NCJ9..."
@@ -115,45 +124,18 @@ Content-Type: application/json
 
 ---
 
-### Criar tarefa
+### GET /tasks
+Lista todas as tarefas do usuário autenticado.
 
-```http
-POST /tasks
-Authorization: Bearer {token}
-Content-Type: application/json
+**Headers:** `Authorization: Bearer {token}`
 
-{
-  "title": "Estudar Spring Boot",
-  "description": "Focar em Spring Security e JWT"
-}
-```
-
-**Resposta (201):**
-```json
-{
-  "id": 1,
-  "title": "Estudar Spring Boot",
-  "description": "Focar em Spring Security e JWT",
-  "completed": false
-}
-```
-
----
-
-### Listar tarefas
-
-```http
-GET /tasks
-Authorization: Bearer {token}
-```
-
-**Resposta (200):**
+**Response — 200 OK:**
 ```json
 [
   {
     "id": 1,
     "title": "Estudar Spring Boot",
-    "description": "Focar em Spring Security e JWT",
+    "description": "Focar em Spring Security",
     "completed": false
   }
 ]
@@ -161,47 +143,88 @@ Authorization: Bearer {token}
 
 ---
 
-### Marcar como concluída
+### POST /tasks
+Cria uma nova tarefa para o usuário autenticado.
 
-```http
-PATCH /tasks/1/toggle
-Authorization: Bearer {token}
+**Headers:** `Authorization: Bearer {token}`
+
+**Request:**
+```json
+{
+  "title": "Estudar Spring Boot",
+  "description": "Focar em Spring Security"
+}
 ```
 
-**Resposta (200):**
+**Validações:**
+- `title` — obrigatório
+- `description` — opcional
+
+**Response — 201 Created:**
 ```json
 {
   "id": 1,
   "title": "Estudar Spring Boot",
-  "description": "Focar em Spring Security e JWT",
+  "description": "Focar em Spring Security",
+  "completed": false
+}
+```
+
+---
+
+### PATCH /tasks/{id}/toggle
+Alterna o status de uma tarefa entre concluída e pendente.
+
+**Headers:** `Authorization: Bearer {token}`
+
+**Response — 200 OK:**
+```json
+{
+  "id": 1,
+  "title": "Estudar Spring Boot",
+  "description": "Focar em Spring Security",
   "completed": true
 }
 ```
 
 ---
 
-### Deletar tarefa
+### DELETE /tasks/{id}
+Deleta uma tarefa do usuário autenticado.
 
-```http
-DELETE /tasks/1
-Authorization: Bearer {token}
-```
+**Headers:** `Authorization: Bearer {token}`
 
-**Resposta: 204 No Content**
+**Response — 204 No Content**
 
 ---
 
-## 🗄️ Modelo de Dados
+### Erros
 
+**Erro de validação — 400 Bad Request:**
+```json
+{
+  "email": "must be a well-formed email address",
+  "password": "size must be between 6 and 2147483647"
+}
 ```
-users                          tasks
-─────────────────              ──────────────────────
-id          BIGINT PK          id           BIGINT PK
-name        VARCHAR            title        VARCHAR
-email       VARCHAR UNIQUE     description  VARCHAR
-password    VARCHAR            completed    BOOLEAN
-                               user_id      BIGINT FK → users.id
+
+**Erro de negócio — 400 Bad Request:**
+```json
+{
+  "error": "Email já cadastrado"
+}
 ```
+
+**Sem autenticação — 403 Forbidden:**
+Retornado quando o token está ausente ou inválido.
+
+---
+
+### Observações
+
+- O token JWT expira em **24 horas**
+- Um usuário só acessa as próprias tarefas — nunca as de outro usuário
+- Senhas são armazenadas criptografadas com BCrypt
 
 ---
 
