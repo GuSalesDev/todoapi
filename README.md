@@ -207,7 +207,7 @@ password    VARCHAR            completed    BOOLEAN
 
 ## 👨‍💻 Autor
 
-Feito por **Gustavo Sales** — estudante de Análise e Desenvolvimento de Sistemas com foco em desenvolvimento back-end Java.
+Feito por **Gustavo Sales** — estudante de Análise e Desenvolvimento de Sistemas.
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Gustavo%20Sales-blue?style=flat&logo=linkedin)](https://linkedin.com/in/seu-perfil)
-[![GitHub](https://img.shields.io/badge/GitHub-seu--usuario-black?style=flat&logo=github)](https://github.com/seu-usuario)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Gustavo%20Sales-blue?style=flat&logo=linkedin)](www.linkedin.com/in/gustavo-salesdev)
+[![GitHub](https://img.shields.io/badge/GitHub-seu--usuario-black?style=flat&logo=github)](https://github.com/GuSalesDev)
