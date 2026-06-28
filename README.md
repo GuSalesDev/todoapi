@@ -6,6 +6,10 @@ API REST para gerenciamento de tarefas pessoais com autenticação JWT. Cada usu
 
 https://todoapi-production-79c3.up.railway.app
 
+## 🖥️ Frontend
+
+https://github.com/GuSalesDev/todoapi-frontend
+
 ## 🚀 Tecnologias
 
 - Java 21
