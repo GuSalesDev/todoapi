@@ -4,7 +4,7 @@ API REST para gerenciamento de tarefas pessoais com autenticação JWT. Cada usu
 
 ## 🌐 URL em Produção
 
-https://todoapi-production-79c3.up.railway.app
+https://todoapi-0jic.onrender.com
 
 ## 🖥️ Frontend
 
@@ -73,7 +73,7 @@ O banco `todo_db` e as tabelas são criados automaticamente pelo Hibernate.
 
 ## 📌 Documentação da API
 
-**Base URL:** `https://todoapi-production-79c3.up.railway.app`
+**Base URL:** `https://todoapi-0jic.onrender.com`
 
 ### Autenticação
 
@@ -236,5 +236,5 @@ Retornado quando o token está ausente ou inválido.
 
 Feito por **Gustavo Sales** — estudante de Análise e Desenvolvimento de Sistemas.
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Gustavo%20Sales-blue?style=flat&logo=linkedin)](www.linkedin.com/in/gustavo-salesdev)
-[![GitHub](https://img.shields.io/badge/GitHub-seu--usuario-black?style=flat&logo=github)](https://github.com/GuSalesDev)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Gustavo%20Sales-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/gustavo-salesdev)
+[![GitHub](https://img.shields.io/badge/GitHub-GuSalesDev-black?style=flat&logo=github)](https://github.com/GuSalesDev)
